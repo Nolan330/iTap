@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">iTap</string>
+    <string name="action_settings">Settings</string>
+    <string name="introduction">Image to be introduced</string>
+    <string name="sunshine">Sunshine!</string>
+    <string name="playTapGame">Play Game (Tap)</string>
+    <string name="playSwipeGame">Play Game (Swipe)</string>
+    <string name="playDoubleTapGame">Play Game (Double Tap)</string>
+
+</resources>

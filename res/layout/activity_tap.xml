@@ -1,0 +1,62 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff" >
+    
+    <ImageView
+        android:id="@+id/sunshineBackground"
+        android:layout_width="450dp"
+        android:layout_height="400dp"
+        android:contentDescription="@string/sunshine"
+        android:layout_centerInParent="true"
+        android:background="@drawable/sunshine" />
+    
+    <Button
+        android:id="@+id/playTapGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/sunshineBackground"
+        android:layout_marginBottom="25dp"  
+        android:background="@drawable/bbackground"
+        android:onClick="playTapGame"
+        android:text="@string/playTapGame"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="7dp" />
+
+    <Button
+        android:id="@+id/playSwipeGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/sunshineBackground"
+        android:layout_marginLeft="25dp"
+        android:background="@drawable/bbackground"
+        android:onClick="playSwipeGame"
+        android:text="@string/playSwipeGame"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="7dp" />
+    
+    <Button
+        android:id="@+id/playDoubleTapGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/sunshineBackground"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/bbackground"
+        android:onClick="playDoubleTapGame"
+        android:text="@string/playDoubleTapGame"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="7dp" />
+  	  
+</RelativeLayout>
+
