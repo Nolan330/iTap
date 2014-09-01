@@ -1,11 +1,12 @@
 package vu.edl.flashcard;
 
+import java.util.HashMap;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.view.MotionEvent;
 
 public class MediaMap extends Map {
@@ -13,30 +14,25 @@ public class MediaMap extends Map {
 	// Used for debugging
 	//private final String TAG = this.getClass().getSimpleName();
 	
-	private Uri introId;
-	private Uri interactionId;
-	private Uri testId;
-	private Uri congratsId;
-	private boolean playedIntro = false;
-	private boolean playedCongrats = false;
-	static final int INTRODUCTION = 0;
-	static final int INTERACTION = 1;
-	static final int TESTING = 2;
-	static final int CONGRATS = 3;
+	private HashMap<String, Sound> soundMap = new HashMap<String, Sound>();
+	static final String INTRODUCTION = "intro";
+	static final String INTERACTION_TAP = "tap";
+	static final String INTERACTION_DRAG = "drag";
+	static final String INTERACTION_WATCH = "watch";
+	static final String REMINDER_TAP = "r" + INTERACTION_TAP;
+	static final String REMINDER_DRAG = "r" + INTERACTION_DRAG;
+	static final String TESTING = "testing";
+	static final String CONGRATS = "congrats";
 			
 	private Bitmap img;
 	
 	private boolean tapped = false;
 	private boolean correct = false;
 	
-	public MediaMap(Bitmap image, Uri introPath, Uri interactionPath, 
-					Uri testPath, Uri congratsPath) {
+	public MediaMap(Bitmap image, HashMap<String, Sound> sMap) {
 		img = image;
 		img = img.copy(Bitmap.Config.ARGB_8888, true);
-		introId = introPath;
-		interactionId = interactionPath;
-		testId = testPath;
-		congratsId = congratsPath;
+		soundMap = sMap;
 	}
 	
 	public Bitmap getImage() {
@@ -66,42 +62,29 @@ public class MediaMap extends Map {
 	}
 	
 	// Sound Methods
-	public void playSound(MediaPlayer sounds, int sound, Context context) {
-		Uri playId;
-		
-		switch(sound) {
-		case INTRODUCTION:
-			playId = introId;
-			playedIntro = true;
-			break;
-		case INTERACTION:
-			playId = interactionId;
-			break;
-		case TESTING:
-			playId = testId;
-			break;
-		case CONGRATS:
-			playId = congratsId;
-			playedCongrats = true;
-			break;
+	public void playSound(MediaPlayer sounds, String sound, Context context) {
+		super.playSound(sounds, context, soundMap.get(sound));
+	}
+	
+	public boolean hasPlayedSound(String sound) {
+		return  soundMap.get(sound).hasPlayed();
+	}
+	
+	public static String playInteraction(int test, boolean remind) {
+		switch(test) {
+		case FlashCardPanel.TAP_TEST:
+			return remind ? MediaMap.REMINDER_TAP : MediaMap.INTERACTION_TAP;
+		case FlashCardPanel.DRAG_TEST:
+			return remind ? MediaMap.REMINDER_DRAG : MediaMap.INTERACTION_DRAG;
+		case FlashCardPanel.PASSIVE_TEST:
+			return MediaMap.INTERACTION_WATCH;
 		default:
-			throw new IllegalArgumentException("Unknown Sound ID requested");
+			throw new IllegalArgumentException("Unknown test requested");
 		}
-		
-		super.playSound(sounds, context, playId);
-	}
-	
-	public boolean hasPlayedIntro() {
-		return playedIntro;
-	}
-	
-	public boolean hasPlayedCongrats() {
-		return playedCongrats;
 	}
 	
 	// Event Handling methods
 	public void handleEvent(MotionEvent event) {
-		
 		switch(event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			if (tappedWithinRange(event.getX(), event.getY())) {

@@ -2,12 +2,12 @@ package vu.edl.flashcard;
 
 import java.util.ArrayList;
 import java.util.Random;
-//import java.util.Random;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-//import android.graphics.Matrix;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -26,9 +26,10 @@ public class TestModule {
 	private ArrayList<MediaMap> mediaMaps;
 	private static final float INIT_SCALE_X = .1f;
 	private static final float INIT_SCALE_Y = .1f;
-	private static final float SCALE_MODIFIER = .02f;
-	private static final float FULL_SCALE = 1.0f;
-	//private Matrix scaleMatrix = new Matrix();
+	private static final float SCALE_MODIFIER = .025f;
+	private static final float FULL_SCALE = 1.35f;
+	private Matrix animateMatrix = new Matrix();
+	private Paint scalePaint = new Paint(Paint.FILTER_BITMAP_FLAG);
 	private float scaleX;
 	private float scaleY;
 	private int currentMap = 0;
@@ -83,49 +84,32 @@ public class TestModule {
 	
 	public void introduce(Canvas canvas, FlashCardPanel fcPanel) {
 		MediaMap largeMap = getCurrentMap();
-		/* MediaMap smallMap = mediaMaps.get((currentMap+1) % mediaMaps.size());
-		
-		scaleMatrix.reset();
-		scaleMatrix.preScale(.4f, .4f);
-		scaleMatrix.postTranslate(canvas.getWidth()/4-(.8f)*smallMap.getWidth()/2,
-								  canvas.getHeight()/2-(.4f)*smallMap.getHeight()/2);	
-		canvas.drawBitmap(smallMap.getImage(), scaleMatrix, null);
-		*/
+		if(!largeMap.hasPlayedSound(MediaMap.INTRODUCTION)) {
+			largeMap.playSound(sounds, MediaMap.INTRODUCTION, fcPanel.getContext());
+		}
+		animateMatrix.setScale(scaleX, scaleY);
+		animateMatrix.postTranslate((fcPanel.getWidth() - scaleX*largeMap.getWidth())/2,
+									(fcPanel.getHeight() - scaleY*largeMap.getHeight())/2);
+		canvas.drawBitmap(largeMap.getImage(), animateMatrix, scalePaint);
 		if(scaleX < FULL_SCALE || scaleY < FULL_SCALE) {
-			canvas.scale(scaleX, scaleY);
-			canvas.drawBitmap(largeMap.getImage(), 
-						(float) (1/scaleX)*canvas.getWidth()/2 - scaleX*largeMap.getWidth()/2, 
-						(float) (1/scaleY)*canvas.getHeight()/2 - scaleY*largeMap.getHeight()/2, 
-						 null);
 			scaleX += SCALE_MODIFIER;
 			scaleY += SCALE_MODIFIER;
 		}
-		else {
-			if(!largeMap.hasPlayedIntro()) {
-				largeMap.playSound(sounds, MediaMap.INTRODUCTION, fcPanel.getContext());
-			}
-			
-			canvas.drawBitmap(largeMap.getImage(), 
-							 (float) canvas.getWidth()/2 - largeMap.getWidth()/2,
-							 (float) canvas.getHeight()/2 - largeMap.getHeight()/2, 
-							  null);
-			
-			if(soundComplete) {
-				advance(fcPanel);
-			}
-		}	
+		if(soundComplete) {
+			advance(fcPanel);
+		}
 	}
 	
 	public void interact(Canvas canvas, FlashCardPanel fcPanel, int test) {
 		MediaMap map = getCurrentMap();
 		
 		if(newInteract) {
-			initInteract(canvas, fcPanel, map);
+			initInteract(canvas, fcPanel, map, test);
 		}
 		
 		if(getTimeSincePrompt() > TIME_TO_THINK && soundComplete && !map.wasTapped()) {
 			soundComplete = false;
-			map.playSound(sounds, MediaMap.INTERACTION, fcPanel.getContext());
+			map.playSound(sounds, MediaMap.playInteraction(test, true), fcPanel.getContext());
 		}
 		
 		canvas.drawBitmap(river_bitmap, 
@@ -135,6 +119,20 @@ public class TestModule {
 		
 		switch (test) {
 		case FlashCardPanel.DTAP_TEST:
+		case FlashCardPanel.PASSIVE_TEST:
+			canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
+			if(soundComplete) {
+				canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
+				if(interact_x < (canvas.getWidth()/4 * 3 - map.getWidth()/2) + 25) {
+					interact_x += 13;
+					interact_y = hopMotion(canvas.getWidth(), canvas.getHeight(),
+										   map.getWidth(), map.getHeight());
+				}
+				else {
+					hasCrossedRiver = true;
+				}
+			}
+			break;
 		case FlashCardPanel.TAP_TEST:
 			if(!map.wasTapped()) {
 				canvas.drawBitmap(map.getImage(), 
@@ -144,26 +142,20 @@ public class TestModule {
 			}
 			else {
 				tappedMap = map;
-				canvas.drawBitmap(map.getImage(),
-								  interact_x,
-								  interact_y,
-								  null);
-				
+				canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
 				if(interact_x < (canvas.getWidth()/4 * 3 - map.getWidth()/2) + 25) {
 					interact_x += 13;
-					interact_y = hopMotion(canvas.getWidth(), 
-										   canvas.getHeight(), 
-										   map.getWidth(),
-										   map.getHeight());
+					interact_y = hopMotion(canvas.getWidth(), canvas.getHeight(),
+										   map.getWidth(), map.getHeight());
 				}
 				else {
 					hasCrossedRiver = true;
 				}
 			}
-		break;
-		case FlashCardPanel.SWIPE_TEST:
+			break;
+		case FlashCardPanel.DRAG_TEST:
 			canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
-			if(interact_x > 11*canvas.getWidth()/20) {
+			if(interact_x > 8*canvas.getWidth()/20) {
 				hasCrossedRiver = true;
 			}
 			break;
@@ -172,7 +164,7 @@ public class TestModule {
 		}
 
 		if(hasCrossedRiver) {
-			if(!map.hasPlayedCongrats()) {
+			if(!map.hasPlayedSound(MediaMap.CONGRATS)) {
 				soundComplete = false;
 				map.playSound(sounds, MediaMap.CONGRATS, fcPanel.getContext());
 			}
@@ -190,7 +182,6 @@ public class TestModule {
 	}
 
 	public void test(Canvas canvas, FlashCardPanel fcPanel, int test) {
-		
 		// For each new test, select a new "correct" image and 
 		// new draw coordinates for each image
 		if(newTest) {	
@@ -203,14 +194,12 @@ public class TestModule {
 		}
 		
 		for(MediaMap map : mediaMaps) {
-			canvas.drawBitmap(map.getImage(), 
-							  map.getX(), 
-							  map.getY(), 
-							  null);	
+			canvas.drawBitmap(map.getImage(), map.getX(), map.getY(), null);	
 		}
 		
 		switch(test) {
-		case FlashCardPanel.SWIPE_TEST:
+		case FlashCardPanel.DRAG_TEST:
+		case FlashCardPanel.PASSIVE_TEST:
 		case FlashCardPanel.DTAP_TEST:
 		case FlashCardPanel.TAP_TEST:
 			for(MediaMap m : mediaMaps) {
@@ -231,7 +220,6 @@ public class TestModule {
 	}
 	
 	public void waitForInstructor(Canvas canvas, FlashCardPanel fcPanel) {
-		
 		if(newWait) {
 			initWait(canvas, fcPanel);
 		}
@@ -309,14 +297,17 @@ public class TestModule {
 		scaleY = INIT_SCALE_Y;
 	}
 	
-	private void initInteract(Canvas canvas, FlashCardPanel fcPanel, MediaMap map) {
-		map.playSound(sounds, MediaMap.INTERACTION, fcPanel.getContext());
-		
-		map.setTransparent();
-		
+	private void initInteract(Canvas canvas, FlashCardPanel fcPanel, MediaMap map, int test) {
 		river_bitmap = 
 				BitmapFactory.decodeResource(fcPanel.getContext().getResources(), 
 											 R.drawable.backgroundscene);
+		canvas.drawBitmap(river_bitmap, 
+				new Rect(0,0,river_bitmap.getWidth(),river_bitmap.getHeight()), 
+				new Rect(0,0,canvas.getWidth(),canvas.getHeight()), 
+				null);
+		
+		map.setTransparent();
+		map.playSound(sounds, MediaMap.playInteraction(test, false), fcPanel.getContext());
 		
 		interact_x = canvas.getWidth()/5 - map.getWidth()/2;
 		interact_y = 5*canvas.getHeight()/8 - map.getHeight()/2;
@@ -405,9 +396,6 @@ public class TestModule {
 	}
 	
 	private void selectCorrectImage() {
-		//correctImage = correctImageSelector.nextInt(mediaMaps.size());
-		//getCorrectImage().setCorrect(true);
-		
 		correctImage = 0;
 		getCorrectImage().setCorrect(true);
 	}
@@ -426,7 +414,7 @@ public class TestModule {
 		}
 		if((interacting || testing) && soundComplete) {
 			
-			if(FlashCardPanel.CURRENT_TEST == FlashCardPanel.SWIPE_TEST) {
+			if(FlashCardPanel.CURRENT_TEST == FlashCardPanel.DRAG_TEST) {
 				MediaMap map = getCurrentMap();
 				switch(event.getAction()) {
 				case MotionEvent.ACTION_DOWN:

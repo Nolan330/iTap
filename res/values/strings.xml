@@ -6,7 +6,8 @@
     <string name="introduction">Image to be introduced</string>
     <string name="sunshine">Sunshine!</string>
     <string name="playTapGame">Play Game (Tap)</string>
-    <string name="playSwipeGame">Play Game (Swipe)</string>
+    <string name="playDragGame">Play Game (Drag)</string>
     <string name="playDoubleTapGame">Play Game (Double Tap)</string>
+    <string name="playWatchGame">Play Game (Passive)</string>
 
 </resources>

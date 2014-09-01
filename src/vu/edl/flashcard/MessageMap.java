@@ -13,7 +13,7 @@ public class MessageMap extends Map {
 	// Used for debugging
 	//private final String TAG = this.getClass().getSimpleName();
 	
-	private Uri soundId;
+	private Sound sound;
 			
 	private String msg;
 	
@@ -22,7 +22,7 @@ public class MessageMap extends Map {
 	
 	public MessageMap(String message, Uri soundPath) {
 		msg = message;
-		soundId = soundPath;
+		sound = new Sound(soundPath);
 		textPaint.setTextAlign(Align.CENTER);
 		textPaint.setColor(Color.BLACK);
 		textPaint.setTextSize(50.0f);
@@ -37,6 +37,6 @@ public class MessageMap extends Map {
 	
 	// Sound Methods
 	public void playSound(MediaPlayer sounds, Context context) {
-		super.playSound(sounds, context, soundId);
+		super.playSound(sounds, context, sound);
 	}
 }

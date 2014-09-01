@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -51,8 +53,12 @@ public class FlashCardPanel extends SurfaceView
 	
 	static int CURRENT_TEST = 0;
 	static final int TAP_TEST = 0;
-	static final int SWIPE_TEST = 1;
+	static final int DRAG_TEST = 1;
 	static final int DTAP_TEST = 2;
+	static final int PASSIVE_TEST = 3;
+	static final List<String> TEST_LIST = Arrays.asList(
+		"Tap", "Drag", "Double Tap", "Passive"
+    );
 	
 	private static String FILENAME = "test_results";
 	private boolean writeout = true;
@@ -78,7 +84,6 @@ public class FlashCardPanel extends SurfaceView
 		if(list.size() > 0) {
 			modulesLoaded = true;
 		}
-		
 		msgScreens = screens;
 	}
 	
@@ -113,14 +118,20 @@ public class FlashCardPanel extends SurfaceView
 	}
 	
 	@Override
+	public boolean performClick() {
+		return super.performClick();
+	}
+	
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		performClick();
 		if(event.getAction() == MotionEvent.ACTION_DOWN) {
 			total_taps++;
 		}
 		
 		getCurrentModule().handleEvent(event, this);
 
-		if(CURRENT_TEST == SWIPE_TEST) {
+		if(CURRENT_TEST == DRAG_TEST) {
 			Log.d(TAG, "Total taps increased to: " + total_taps);
 			return true;
 		}
@@ -164,9 +175,10 @@ public class FlashCardPanel extends SurfaceView
 			case QUIT:
 				canvas.drawColor(Color.WHITE);
 				if(writeout) {
-					String taps = "Screen tapped: " + total_taps + " times (" 
-							+ NECESSARY_TAPS + " are required).\n";
-					String time = "Total Time taken: " 
+					String test = "Test Condition: " + TEST_LIST.get(CURRENT_TEST) + "\n";
+ 					String taps = "Screen Tapped: " + total_taps + " times (" 
+							+ (CURRENT_TEST == FlashCardPanel.PASSIVE_TEST ? 18 : 30) + " are required).\n";
+					String time = "Total Time Taken: " 
 						+ (endTime - initTime)/1000 + " seconds.\n";
 					String separator = "----------------------------------------------";
 					int moduleIndex = 0;
@@ -183,15 +195,16 @@ public class FlashCardPanel extends SurfaceView
 						try {
 							outputWriter = new FileOutputStream(test_results, true);
 							if(moduleIndex == 1) {
+								outputWriter.write(test.getBytes());
 								outputWriter.write(taps.getBytes());
 								outputWriter.write(time.getBytes());
 							}
 							outputWriter.write(moduleId.getBytes());
 							outputWriter.write(output.getBytes());
-							outputWriter.close();
-							if(moduleIndex == testModules.size() - 1) {
+							if(moduleIndex == testModules.size()) {
 								outputWriter.write(separator.getBytes());
 							}
+							outputWriter.close();
 						} catch (FileNotFoundException e) {
 							Log.d(TAG, "FlashCardPanel::Error opening file, FileNotFound");
 						} catch (IOException e) {
