@@ -52,6 +52,7 @@ public class TestModule {
 	private int correctTests = 0;
 	private int totalTests = 0;
 	private int totalTaps = 0;
+	private int testIndex;
 	private int topImage;
 	private int side;
 	
@@ -62,7 +63,8 @@ public class TestModule {
 	private int instructorButtonY = 0;
 	private Bitmap green_arrow;
 	
-	public TestModule(ArrayList<MediaMap> maps, MediaPlayer player) {
+	public TestModule(ArrayList<MediaMap> maps, MediaPlayer player, int testInd) {
+		testIndex = testInd;
 		mediaMaps = maps;
 		
 		scaleX = INIT_SCALE_X;
@@ -396,7 +398,7 @@ public class TestModule {
 	}
 	
 	private void selectCorrectImage() {
-		correctImage = 0;
+		correctImage = testIndex;
 		getCorrectImage().setCorrect(true);
 	}
 	
@@ -428,8 +430,12 @@ public class TestModule {
 					
 				case MotionEvent.ACTION_MOVE:
 					if(swipeMotion) {
-						interact_x = event.getX() - getCurrentMap().getWidth()/2;
-						interact_y = event.getY() - getCurrentMap().getHeight()/2;
+						float nx = event.getX() - map.getWidth()/2;
+						float ny = event.getY() - map.getHeight()/2;
+						interact_x = (nx <= fcPanel.getWidth() - map.getWidth() && nx >= 0) ?
+								nx : interact_x;
+						interact_y = (ny <= fcPanel.getHeight() - map.getHeight() && ny >= 0) ?
+								ny : interact_y;
 					}
 					break;
 					

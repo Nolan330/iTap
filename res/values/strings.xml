@@ -5,9 +5,18 @@
     <string name="action_settings">Settings</string>
     <string name="introduction">Image to be introduced</string>
     <string name="sunshine">Sunshine!</string>
-    <string name="playTapGame">Play Game (Tap)</string>
-    <string name="playDragGame">Play Game (Drag)</string>
+    <string name="playTapGameOne">Play Game (Tap v1)</string>
+    <string name="playTapGameTwo">Play Game (Tap v2)</string>
+    <string name="playTapGameThree">Play Game (Tap v3)</string>
+    <string name="playTapGameFour">Play Game (Tap v4)</string>
+    <string name="playDragGameOne">Play Game (Drag v1)</string>
+    <string name="playDragGameTwo">Play Game (Drag v2)</string>
+    <string name="playDragGameThree">Play Game (Drag v3)</string>
+    <string name="playDragGameFour">Play Game (Drag v4)</string>
     <string name="playDoubleTapGame">Play Game (Double Tap)</string>
-    <string name="playWatchGame">Play Game (Passive)</string>
+    <string name="playWatchGameOne">Play Game (Passive v1)</string>
+    <string name="playWatchGameTwo">Play Game (Passive v2)</string>
+    <string name="playWatchGameThree">Play Game (Passive v3)</string>
+    <string name="playWatchGameFour">Play Game (Passive v4)</string>
 
 </resources>
