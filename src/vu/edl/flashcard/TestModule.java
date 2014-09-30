@@ -21,7 +21,7 @@ public class TestModule {
 	private MediaPlayer sounds;
 	private boolean soundComplete = false;
 	private long startTime;
-	private static final long TIME_TO_THINK = 8000;
+	private static final long TIME_TO_THINK = 4000;
 	
 	private ArrayList<MediaMap> mediaMaps;
 	private static final float INIT_SCALE_X = .1f;
@@ -41,6 +41,11 @@ public class TestModule {
 	private float interact_y = 0;
 	private boolean swipeMotion = false;
 	private Bitmap river_bitmap;
+	private float end_m = -1;
+	private float end_b;
+	private float end_x;
+	private float end_y;
+	private boolean atEndLocation = false;
 	
 	private boolean testing = false;
 	private boolean newTest = true;
@@ -164,13 +169,25 @@ public class TestModule {
 		default: 
 			throw new IllegalArgumentException("Unknown interaction requested");
 		}
-
+//		else {
+//			if (end_m == -1) {
+//				end_x = canvas.getWidth() - map.getWidth() - 50;
+//				end_y = (canvas.getHeight() - map.getHeight())/2;
+//				end_m = (end_y - interact_y)/(end_x - interact_x);
+//				end_b = interact_y - end_m*interact_x;
+//			}
+//			canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
+//			interact_x += 13;
+//			interact_y += interact_x * end_m + end_b;
+//			if (interact_x >= end_x) {
+//				atEndLocation = true;
+//			}
 		if(hasCrossedRiver) {
 			if(!map.hasPlayedSound(MediaMap.CONGRATS)) {
 				soundComplete = false;
 				map.playSound(sounds, MediaMap.CONGRATS, fcPanel.getContext());
 			}
-			if(soundComplete) {
+			if(soundComplete /*&& atEndLocation*/) {
 				advance(fcPanel);
 			}
 		}
@@ -325,6 +342,7 @@ public class TestModule {
 		
 		getCorrectImage().playSound(sounds, MediaMap.TESTING, fcPanel.getContext());
 	
+		// complex logic that should be refactored into a class ("coordinate selector")
 		if(currentTest == 0) {
 			topImage = topImageSelector.nextInt(2);
 			side = topImageSelector.nextInt(2);
@@ -415,7 +433,6 @@ public class TestModule {
 			totalTaps++;
 		}
 		if((interacting || testing) && soundComplete) {
-			
 			if(FlashCardPanel.CURRENT_TEST == FlashCardPanel.DRAG_TEST) {
 				MediaMap map = getCurrentMap();
 				switch(event.getAction()) {
@@ -453,7 +470,6 @@ public class TestModule {
 				m.handleEvent(event);
 			}
 		}
-		
 		if(waiting) {
 			switch(event.getAction()) {
 			case MotionEvent.ACTION_DOWN:

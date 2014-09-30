@@ -53,22 +53,22 @@ public class TapActivity extends Activity {
 				
 		// familiar module
 		elephantMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "instruction_elephant")));
-		elephantMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_elephant")));
-		elephantMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_elephant")));
-		elephantMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_elephant")));
-		elephantMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_elephant")));
-		elephantMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_elephant")));
+		elephantMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_elephant")));
+		elephantMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_elephant")));
+		elephantMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "tap_elephant")));
+		elephantMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
+		elephantMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "drag_elephant")));
 		elephantMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_elephant")));
 		elephantMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job")));
 		MediaMap elephant = 
 			new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.elephant), elephantMap);
 		
 		cowMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "instruction_cow")));
-		cowMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_cow")));
-		cowMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_cow")));
-		cowMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_cow")));
-		cowMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_cow")));
-		cowMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_cow")));
+		cowMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_cow")));
+		cowMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_cow")));
+		cowMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "tap_cow")));
+		cowMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
+		cowMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "drag_cow")));
 		cowMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_cow")));
 		cowMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job2")));
 		MediaMap cow = 
@@ -77,22 +77,22 @@ public class TapActivity extends Activity {
 		
 		// familiar module
 		horseMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_horse")));
-		horseMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_horse")));
-		horseMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_horse")));
-		horseMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_horse")));
-		horseMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_horse")));
-		horseMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_horse")));
+		horseMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_horse")));
+		horseMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_horse")));
+		horseMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "tap_horse")));
+		horseMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
+		horseMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "drag_horse")));
 		horseMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_horse")));
 		horseMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job")));
 		MediaMap horse = 
 				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.horse), horseMap);
 		
 		sheepMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_sheep")));
-		sheepMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_sheep")));
-		sheepMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_sheep")));
-		sheepMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_sheep")));
-		sheepMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_sheep")));
-		sheepMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_sheep")));
+		sheepMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_sheep")));
+		sheepMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_sheep")));
+		sheepMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "tap_sheep")));
+		sheepMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
+		sheepMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "drag_sheep")));
 		sheepMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_sheep")));
 		sheepMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job2")));
 		MediaMap sheep = 
@@ -100,69 +100,69 @@ public class TapActivity extends Activity {
 		testModules.add(makeModule(horse, sheep, R.raw.continue_playing, 0));
 
 		daxMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_dax")));
-		daxMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_dax")));
-		daxMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_dax")));
-		daxMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_dax")));
-		daxMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_dax")));
-		daxMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_dax")));
+		daxMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_dax")));
+		daxMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_dax")));
+		daxMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_dax")));
+		daxMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
+		daxMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "drag_dax")));
 		daxMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_dax")));
 		daxMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job")));
 		thisone_daxMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_thisone")));
-		thisone_daxMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_daxMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_daxMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_daxMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_daxMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
+		thisone_daxMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_thisone")));
+		thisone_daxMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_thisone")));
+		thisone_daxMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_thisone")));
+		thisone_daxMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
+		thisone_daxMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "drag_thisone")));
 		thisone_daxMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_thisone")));
 		thisone_daxMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job2")));
 		
 		blikMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_blik")));
-		blikMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_blik")));
-		blikMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_blik")));
-		blikMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_blik")));
-		blikMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_blik")));
+		blikMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_blik")));
+		blikMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_blik")));
+		blikMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_blik")));
+		blikMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		blikMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_blik")));
 		blikMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_blik")));
 		blikMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job")));
 		thisone_blikMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_thisone")));
-		thisone_blikMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_blikMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_blikMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_blikMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
+		thisone_blikMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_thisone")));
+		thisone_blikMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_thisone")));
+		thisone_blikMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_thisone")));
+		thisone_blikMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		thisone_blikMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
 		thisone_blikMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_thisone")));
 		thisone_blikMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job2")));
 		
 		fepMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_fep")));
-		fepMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_fep")));
-		fepMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_fep")));
-		fepMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_fep")));
-		fepMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_fep")));
+		fepMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_fep")));
+		fepMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_fep")));
+		fepMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_fep")));
+		fepMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		fepMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_fep")));
 		fepMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_fep")));
 		fepMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job")));
 		thisone_fepMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_thisone")));
-		thisone_fepMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_fepMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_fepMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_fepMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
+		thisone_fepMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_thisone")));
+		thisone_fepMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_thisone")));
+		thisone_fepMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_thisone")));
+		thisone_fepMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		thisone_fepMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
 		thisone_fepMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_thisone")));
 		thisone_fepMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job2")));
 		
 		zavMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_zav")));
-		zavMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_zav")));
-		zavMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_zav")));
-		zavMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_zav")));
-		zavMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_zav")));
+		zavMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_zav")));
+		zavMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_zav")));
+		zavMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_zav")));
+		zavMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		zavMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_zav")));
 		zavMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_zav")));
 		zavMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job")));
 		thisone_zavMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_thisone")));
-		thisone_zavMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_zavMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_zavMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
-		thisone_zavMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
+		thisone_zavMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_thisone")));
+		thisone_zavMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_thisone")));
+		thisone_zavMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_thisone")));
+		thisone_zavMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		thisone_zavMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "interaction_thisone")));
 		thisone_zavMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "testing_thisone")));
 		thisone_zavMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job2")));
