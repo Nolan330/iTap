@@ -21,7 +21,7 @@ public class TestModule {
 	private MediaPlayer sounds;
 	private boolean soundComplete = false;
 	private long startTime;
-	private static final long TIME_TO_THINK = 4000;
+	private static final long TIME_TO_THINK = 5000;
 	
 	private ArrayList<MediaMap> mediaMaps;
 	private static final float INIT_SCALE_X = .1f;
@@ -46,6 +46,9 @@ public class TestModule {
 	private float end_x;
 	private float end_y;
 	private boolean atEndLocation = false;
+	private boolean endAnimationDone = false;
+	private boolean endAnimationUp = true;
+	private boolean endAnimationDown= false;
 	
 	private boolean testing = false;
 	private boolean newTest = true;
@@ -124,72 +127,82 @@ public class TestModule {
 				new Rect(0,0,canvas.getWidth(),canvas.getHeight()), 
 				null);
 		
-		switch (test) {
-		case FlashCardPanel.DTAP_TEST:
-		case FlashCardPanel.PASSIVE_TEST:
-			canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
-			if(soundComplete) {
-				canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
-				if(interact_x < (canvas.getWidth()/4 * 3 - map.getWidth()/2) + 25) {
-					interact_x += 13;
-					interact_y = hopMotion(canvas.getWidth(), canvas.getHeight(),
-										   map.getWidth(), map.getHeight());
+		canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
+		if(!hasCrossedRiver) {
+			switch (test) {
+			case FlashCardPanel.DTAP_TEST:
+			case FlashCardPanel.PASSIVE_TEST:
+				if(soundComplete) {
+					if(interact_x < (canvas.getWidth()/4 * 3 - map.getWidth()/2) + 25) {
+						interact_x += 13;
+						interact_y = hopMotion(canvas.getWidth(), canvas.getHeight(),
+											   map.getWidth(), map.getHeight());
+					}
+					else {
+						hasCrossedRiver = true;
+					}
 				}
-				else {
+				break;
+			case FlashCardPanel.TAP_TEST:
+				if (map.wasTapped()) {
+					tappedMap = map;
+					if(interact_x < (canvas.getWidth()/4 * 3 - map.getWidth()/2) + 25) {
+						interact_x += 13;
+						interact_y = hopMotion(canvas.getWidth(), canvas.getHeight(),
+											   map.getWidth(), map.getHeight());
+					}
+					else {
+						hasCrossedRiver = true;
+					}
+				}
+				break;
+			case FlashCardPanel.DRAG_TEST:
+				if(interact_x > 7*canvas.getWidth()/20) {
+					Log.d(TAG, "ix: " + interact_x + ", iy: " + interact_y);
 					hasCrossedRiver = true;
+					end_x = canvas.getWidth() - map.getWidth() - (canvas.getWidth()/15);
+					end_y = (canvas.getHeight() - map.getHeight())/2 + 50;
+					end_m = (end_y - interact_y)/(end_x - interact_x);
+					end_b = interact_y - end_m*interact_x;
 				}
+				break;
+			default: 
+				throw new IllegalArgumentException("Unknown interaction requested");
 			}
-			break;
-		case FlashCardPanel.TAP_TEST:
-			if(!map.wasTapped()) {
-				canvas.drawBitmap(map.getImage(), 
-								  canvas.getWidth()/5 - map.getWidth()/2, 
-								  5*canvas.getHeight()/8 - map.getHeight()/2,
-								  null);
-			}
-			else {
-				tappedMap = map;
-				canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
-				if(interact_x < (canvas.getWidth()/4 * 3 - map.getWidth()/2) + 25) {
-					interact_x += 13;
-					interact_y = hopMotion(canvas.getWidth(), canvas.getHeight(),
-										   map.getWidth(), map.getHeight());
-				}
-				else {
-					hasCrossedRiver = true;
-				}
-			}
-			break;
-		case FlashCardPanel.DRAG_TEST:
-			canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
-			if(interact_x > 8*canvas.getWidth()/20) {
-				hasCrossedRiver = true;
-			}
-			break;
-		default: 
-			throw new IllegalArgumentException("Unknown interaction requested");
 		}
-//		else {
-//			if (end_m == -1) {
-//				end_x = canvas.getWidth() - map.getWidth() - 50;
-//				end_y = (canvas.getHeight() - map.getHeight())/2;
-//				end_m = (end_y - interact_y)/(end_x - interact_x);
-//				end_b = interact_y - end_m*interact_x;
-//			}
-//			canvas.drawBitmap(map.getImage(), interact_x, interact_y, null);
-//			interact_x += 13;
-//			interact_y += interact_x * end_m + end_b;
-//			if (interact_x >= end_x) {
-//				atEndLocation = true;
-//			}
-		if(hasCrossedRiver) {
+		else if(!atEndLocation){
 			if(!map.hasPlayedSound(MediaMap.CONGRATS)) {
 				soundComplete = false;
 				map.playSound(sounds, MediaMap.CONGRATS, fcPanel.getContext());
 			}
-			if(soundComplete /*&& atEndLocation*/) {
-				advance(fcPanel);
+			interact_x += 13;
+			interact_y = interact_x * end_m + end_b;
+			if (interact_x >= end_x) {
+				atEndLocation = true;
 			}
+		}
+		else if (!endAnimationDown) {
+			if (endAnimationUp) {
+				interact_y -= 12;
+				if (interact_y <= (canvas.getHeight() - 2*map.getHeight())/4 + 100) {
+					endAnimationUp = false;
+				}
+			}
+			else {
+				interact_y += 12;
+				if (interact_y >= (canvas.getHeight() - map.getHeight())/2 + 50) {
+					endAnimationDown = true;
+				}
+			}
+		}
+		else if (!endAnimationDone){
+			interact_x += 12;
+			if (interact_x >= canvas.getWidth()) {
+				endAnimationDone = true;
+			}
+		}
+		if(endAnimationDone && soundComplete) {
+			advance(fcPanel);
 		}
 	}
 	
@@ -321,8 +334,8 @@ public class TestModule {
 				BitmapFactory.decodeResource(fcPanel.getContext().getResources(), 
 											 R.drawable.backgroundscene);
 		canvas.drawBitmap(river_bitmap, 
-				new Rect(0,0,river_bitmap.getWidth(),river_bitmap.getHeight()), 
-				new Rect(0,0,canvas.getWidth(),canvas.getHeight()), 
+				new Rect(0,0,river_bitmap.getWidth(), river_bitmap.getHeight()), 
+				new Rect(0,0,canvas.getWidth(), canvas.getHeight()), 
 				null);
 		
 		map.setTransparent();
@@ -392,6 +405,10 @@ public class TestModule {
 		interacting = false;
 		hasCrossedRiver = false;
 		swipeMotion = false;
+		atEndLocation = false;
+		endAnimationDone = false;
+		endAnimationUp = true;
+		endAnimationDown = false;
 		for(MediaMap map : mediaMaps) {
 			map.setTapped(false);
 		}
@@ -432,7 +449,7 @@ public class TestModule {
 		if(testing && event.getAction() == MotionEvent.ACTION_DOWN) {
 			totalTaps++;
 		}
-		if((interacting || testing) && soundComplete) {
+		if((interacting || testing)  && soundComplete) {
 			if(FlashCardPanel.CURRENT_TEST == FlashCardPanel.DRAG_TEST) {
 				MediaMap map = getCurrentMap();
 				switch(event.getAction()) {

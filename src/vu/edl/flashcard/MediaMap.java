@@ -21,7 +21,10 @@ public class MediaMap extends Map {
 	static final String INTERACTION_WATCH = "watch";
 	static final String REMINDER_TAP = "r" + INTERACTION_TAP;
 	static final String REMINDER_DRAG = "r" + INTERACTION_DRAG;
+	static final String EMPTY = "empty";
 	static final String TESTING = "testing";
+	static final String REMINDER_TEST = "r" + TESTING;
+	static final String CELEBRATE = "celebrate";
 	static final String CONGRATS = "congrats";
 			
 	private Bitmap img;
