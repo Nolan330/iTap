@@ -171,10 +171,11 @@ public class TestModule {
 			}
 		}
 		else if(!atEndLocation){
-			if(!map.hasPlayedSound(MediaMap.CONGRATS)) {
+			if(!map.hasPlayedSound(MediaMap.EMPTY)) {
 				soundComplete = false;
-				map.playSound(sounds, MediaMap.CONGRATS, fcPanel.getContext());
+				map.playSound(sounds, MediaMap.EMPTY, fcPanel.getContext());
 			}
+			interacting = false;
 			interact_x += 13;
 			interact_y = interact_x * end_m + end_b;
 			if (interact_x >= end_x) {
@@ -182,6 +183,10 @@ public class TestModule {
 			}
 		}
 		else if (!endAnimationDown) {
+			if(!map.hasPlayedSound(MediaMap.CONGRATS)) {
+				soundComplete = false;
+				map.playSound(sounds, MediaMap.CONGRATS, fcPanel.getContext());
+			}
 			if (endAnimationUp) {
 				interact_y -= 12;
 				if (interact_y <= (canvas.getHeight() - 2*map.getHeight())/4 + 100) {
@@ -196,6 +201,10 @@ public class TestModule {
 			}
 		}
 		else if (!endAnimationDone){
+			if(!map.hasPlayedSound(MediaMap.CELEBRATE)) {
+				soundComplete = false;
+				map.playSound(sounds, MediaMap.CELEBRATE, fcPanel.getContext());
+			}
 			interact_x += 12;
 			if (interact_x >= canvas.getWidth()) {
 				endAnimationDone = true;
@@ -222,7 +231,7 @@ public class TestModule {
 		
 		if(getTimeSincePrompt() > TIME_TO_THINK && soundComplete) {
 			soundComplete = false;
-			getCorrectImage().playSound(sounds, MediaMap.TESTING, fcPanel.getContext());
+			getCorrectImage().playSound(sounds, MediaMap.REMINDER_TEST, fcPanel.getContext());
 		}
 		
 		for(MediaMap map : mediaMaps) {
