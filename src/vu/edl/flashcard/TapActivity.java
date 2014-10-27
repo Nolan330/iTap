@@ -63,8 +63,6 @@ public class TapActivity extends Activity {
 		elephantMap.put(MediaMap.CELEBRATE, new Sound(Uri.parse(rawLoc + "celebrate_elephant")));
 		elephantMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job")));
 		elephantMap.put(MediaMap.EMPTY, new Sound(Uri.parse(rawLoc + "empty")));
-		MediaMap elephant = 
-			new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.elephant), elephantMap);
 		
 		cowMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "instruction_cow")));
 		cowMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_cow")));
@@ -75,9 +73,6 @@ public class TapActivity extends Activity {
 		cowMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job2")));
 		cowMap.put(MediaMap.CELEBRATE, new Sound(Uri.parse(rawLoc + "celebrate_cow")));
 		cowMap.put(MediaMap.EMPTY, new Sound(Uri.parse(rawLoc + "empty")));
-		MediaMap cow = 
-				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.cow), cowMap);
-		testModules.add(makeModule(elephant, cow, R.raw.continue_playing, 0));
 		
 		// familiar module
 		horseMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_horse")));
@@ -91,8 +86,6 @@ public class TapActivity extends Activity {
 		horseMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job")));
 		horseMap.put(MediaMap.CELEBRATE, new Sound(Uri.parse(rawLoc + "celebrate_horse")));
 		horseMap.put(MediaMap.EMPTY, new Sound(Uri.parse(rawLoc + "empty")));
-		MediaMap horse = 
-				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.horse), horseMap);
 		
 		sheepMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_sheep")));
 		sheepMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_sheep")));
@@ -103,9 +96,6 @@ public class TapActivity extends Activity {
 		sheepMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job2")));
 		sheepMap.put(MediaMap.CELEBRATE, new Sound(Uri.parse(rawLoc + "celebrate_sheep")));
 		sheepMap.put(MediaMap.EMPTY, new Sound(Uri.parse(rawLoc + "empty")));
-		MediaMap sheep = 
-			new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.sheep), sheepMap);
-		testModules.add(makeModule(horse, sheep, R.raw.continue_playing, 0));
 
 		daxMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_dax")));
 		daxMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_dax")));
@@ -314,11 +304,23 @@ public class TapActivity extends Activity {
 	}
 	
 	private void cfgVersionOne() {
+		MediaMap elephant = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.elephant), elephantMap);
+		MediaMap cow = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.cow), cowMap);
+		testModules.add(makeModule(elephant, cow, R.raw.continue_playing, 0));
+		
+		MediaMap horse = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.horse), horseMap);
+		MediaMap sheep = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.sheep), sheepMap);
+			testModules.add(makeModule(horse, sheep, R.raw.continue_playing, 0));
+			
 		MediaMap dax = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.dax), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_dax), 
 				daxMap);
 		MediaMap thisone_dax = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_dax), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.dax), 
 				thisone_daxMap);
 		testModules.add(makeModule(dax, thisone_dax, R.raw.continue_playing, 0));
 			
@@ -328,7 +330,7 @@ public class TapActivity extends Activity {
 		MediaMap thisone_blik = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_blik),
 				thisone_blikMap);
-		testModules.add(makeModule(blik, thisone_blik, R.raw.continue_playing, 0));
+		testModules.add(makeModule(thisone_blik, blik, R.raw.continue_playing, 1));
 		
 		MediaMap fep = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.fep), 
@@ -336,25 +338,38 @@ public class TapActivity extends Activity {
 		MediaMap thisone_fep = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_fep),
 				thisone_fepMap);
-		testModules.add(makeModule(fep, thisone_fep, R.raw.continue_playing, 0));
+		testModules.add(makeModule(thisone_fep, fep, R.raw.continue_playing, 1));
 		
 		MediaMap zav = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.zav), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_zav), 
 				zavMap);
 		MediaMap thisone_zav = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_zav), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.zav), 
 				thisone_zavMap);
 		testModules.add(makeModule(zav, thisone_zav, R.raw.continue_playing, 0));
 		
 		fcp.loadModules(testModules, screens);
+		fcp.loadVersion(1);
 	}
 	
 	private void cfgVersionTwo() {
+		MediaMap elephant = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.elephant), elephantMap);
+		MediaMap cow = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.cow), cowMap);
+		testModules.add(makeModule(elephant, cow, R.raw.continue_playing, 0));
+		
+		MediaMap horse = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.horse), horseMap);
+		MediaMap sheep = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.sheep), sheepMap);
+			testModules.add(makeModule(horse, sheep, R.raw.continue_playing, 0));
+			
 		MediaMap dax = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.dax),
+				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_dax),
 				thisone_daxMap);
 		MediaMap thisone_dax = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_dax), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.dax), 
 				daxMap);
 		testModules.add(makeModule(dax, thisone_dax, R.raw.continue_playing, 1));
 			
@@ -364,7 +379,7 @@ public class TapActivity extends Activity {
 		MediaMap thisone_blik = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_blik), 
 				blikMap);
-		testModules.add(makeModule(blik, thisone_blik, R.raw.continue_playing, 1));
+		testModules.add(makeModule(thisone_blik, blik, R.raw.continue_playing, 0));
 		
 		MediaMap fep = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.fep),
@@ -372,25 +387,38 @@ public class TapActivity extends Activity {
 		MediaMap thisone_fep = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_fep), 
 				fepMap);
-		testModules.add(makeModule(fep, thisone_fep, R.raw.continue_playing, 1));
+		testModules.add(makeModule(thisone_fep, fep, R.raw.continue_playing, 0));
 		
 		MediaMap zav = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.zav), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_zav), 
 				thisone_zavMap);
 		MediaMap thisone_zav = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_zav),
+				BitmapFactory.decodeResource(getResources(), R.drawable.zav),
 				zavMap);
 		testModules.add(makeModule(zav, thisone_zav, R.raw.continue_playing, 1));
 		
 		fcp.loadModules(testModules, screens);
+		fcp.loadVersion(2);
 	}
 	
 	private void cfgVersionThree() {
+		MediaMap elephant = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.elephant), elephantMap);
+		MediaMap cow = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.cow), cowMap);
+		testModules.add(makeModule(cow, elephant, R.raw.continue_playing, 1));
+		
+		MediaMap horse = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.horse), horseMap);
+		MediaMap sheep = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.sheep), sheepMap);
+			testModules.add(makeModule(sheep, horse, R.raw.continue_playing, 1));
+			
 		MediaMap dax = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_dax), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.dax), 
 				daxMap);
 		MediaMap thisone_dax = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.dax), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_dax), 
 				thisone_daxMap);
 		testModules.add(makeModule(dax, thisone_dax, R.raw.continue_playing, 0));
 			
@@ -400,7 +428,7 @@ public class TapActivity extends Activity {
 		MediaMap thisone_blik = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.blik),
 				thisone_blikMap);
-		testModules.add(makeModule(blik, thisone_blik, R.raw.continue_playing, 0));
+		testModules.add(makeModule(thisone_blik, blik, R.raw.continue_playing, 1));
 		
 		MediaMap fep = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_fep), 
@@ -408,25 +436,38 @@ public class TapActivity extends Activity {
 		MediaMap thisone_fep = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.fep),
 				thisone_fepMap);
-		testModules.add(makeModule(fep, thisone_fep, R.raw.continue_playing, 0));
+		testModules.add(makeModule(thisone_fep, fep, R.raw.continue_playing, 1));
 		
 		MediaMap zav = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_zav), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.zav), 
 				zavMap);
 		MediaMap thisone_zav = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.zav), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_zav), 
 				thisone_zavMap);
 		testModules.add(makeModule(zav, thisone_zav, R.raw.continue_playing, 0));
 		
 		fcp.loadModules(testModules, screens);
+		fcp.loadVersion(3);
 	}
 	
 	private void cfgVersionFour() {
+		MediaMap elephant = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.elephant), elephantMap);
+		MediaMap cow = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.cow), cowMap);
+		testModules.add(makeModule(cow, elephant, R.raw.continue_playing, 1));
+		
+		MediaMap horse = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.horse), horseMap);
+		MediaMap sheep = 
+				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.sheep), sheepMap);
+			testModules.add(makeModule(sheep, horse, R.raw.continue_playing, 1));
+			
 		MediaMap dax = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_dax), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.dax), 
 				thisone_daxMap);
 		MediaMap thisone_dax = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.dax), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_dax), 
 				daxMap);
 		testModules.add(makeModule(dax, thisone_dax, R.raw.continue_playing, 1));
 			
@@ -436,7 +477,7 @@ public class TapActivity extends Activity {
 		MediaMap thisone_blik = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.blik),
 				blikMap);
-		testModules.add(makeModule(blik, thisone_blik, R.raw.continue_playing, 1));
+		testModules.add(makeModule(thisone_blik, blik, R.raw.continue_playing, 0));
 		
 		MediaMap fep = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_fep), 
@@ -444,16 +485,17 @@ public class TapActivity extends Activity {
 		MediaMap thisone_fep = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.fep),
 				fepMap);
-		testModules.add(makeModule(fep, thisone_fep, R.raw.continue_playing, 1));
+		testModules.add(makeModule(thisone_fep, fep, R.raw.continue_playing, 0));
 		
 		MediaMap zav = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_zav), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.zav), 
 				thisone_zavMap);
 		MediaMap thisone_zav = new MediaMap(
-				BitmapFactory.decodeResource(getResources(), R.drawable.zav), 
+				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_zav), 
 				zavMap);
 		testModules.add(makeModule(zav, thisone_zav, R.raw.continue_playing, 1));
 		
 		fcp.loadModules(testModules, screens);
+		fcp.loadVersion(4);
 	}
 }

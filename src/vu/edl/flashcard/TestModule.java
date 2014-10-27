@@ -49,7 +49,7 @@ public class TestModule {
 	private boolean endAnimationDone = false;
 	private boolean endAnimationUp = true;
 	private boolean endAnimationDown= false;
-	
+
 	private boolean testing = false;
 	private boolean newTest = true;
 	private MediaMap tappedMap;
@@ -140,6 +140,7 @@ public class TestModule {
 					}
 					else {
 						hasCrossedRiver = true;
+						atEndLocation = true;
 					}
 				}
 				break;
@@ -153,6 +154,7 @@ public class TestModule {
 					}
 					else {
 						hasCrossedRiver = true;
+						atEndLocation = true;
 					}
 				}
 				break;

@@ -51,6 +51,7 @@ public class FlashCardPanel extends SurfaceView
 	private long initTime;
 	private long endTime;
 	
+	static int VERSION = 0;
 	static int CURRENT_TEST = 0;
 	static final int TAP_TEST = 0;
 	static final int DRAG_TEST = 1;
@@ -89,6 +90,10 @@ public class FlashCardPanel extends SurfaceView
 	
 	public void loadTest(int test) {
 		CURRENT_TEST = test;
+	}
+	
+	public void loadVersion(int vers) {
+		VERSION = vers;
 	}
 
 	@Override
@@ -175,12 +180,13 @@ public class FlashCardPanel extends SurfaceView
 			case QUIT:
 				canvas.drawColor(Color.WHITE);
 				if(writeout) {
-					String test = "Test Condition: " + TEST_LIST.get(CURRENT_TEST) + "\n";
+					String test = "\nTest Condition: " + TEST_LIST.get(CURRENT_TEST) + "\n";
+					String version = "Version: " + VERSION + "\n";
  					String taps = "Screen Tapped: " + total_taps + " times (" 
 							+ (CURRENT_TEST == FlashCardPanel.PASSIVE_TEST ? 18 : 30) + " are required).\n";
 					String time = "Total Time Taken: " 
 						+ (endTime - initTime)/1000 + " seconds.\n";
-					String separator = "----------------------------------------------";
+					String separator = "----------------------------------------------\n";
 					int moduleIndex = 0;
 					for(TestModule module : testModules) {
 						moduleIndex++;
@@ -196,6 +202,7 @@ public class FlashCardPanel extends SurfaceView
 							outputWriter = new FileOutputStream(test_results, true);
 							if(moduleIndex == 1) {
 								outputWriter.write(test.getBytes());
+								outputWriter.write(version.getBytes());
 								outputWriter.write(taps.getBytes());
 								outputWriter.write(time.getBytes());
 							}
