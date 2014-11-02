@@ -28,13 +28,15 @@ public class MediaMap extends Map {
 	static final String EMPTY = "empty";
 			
 	private Bitmap img;
+	private String mapName;
 	
 	private boolean tapped = false;
 	private boolean correct = false;
 	
-	public MediaMap(Bitmap image, HashMap<String, Sound> sMap) {
+	public MediaMap(Bitmap image, HashMap<String, Sound> sMap, String mapId) {
 		img = image;
 		img = img.copy(Bitmap.Config.ARGB_8888, true);
+		mapName = mapId;
 		soundMap = sMap;
 	}
 	
@@ -48,6 +50,10 @@ public class MediaMap extends Map {
 	
 	public int getHeight() {
 		return img.getHeight();
+	}
+	
+	public String getName() {
+		return mapName;
 	}
 	
 	public void setTransparent() {

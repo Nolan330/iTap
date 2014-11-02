@@ -50,6 +50,9 @@ public class TestModule {
 	private boolean endAnimationUp = true;
 	private boolean endAnimationDown= false;
 
+	private int tapsOnSlide = 0;
+	private ArrayList<String> tapsPerSlide = new ArrayList<String>();
+	
 	private boolean testing = false;
 	private boolean newTest = true;
 	private MediaMap tappedMap;
@@ -88,7 +91,7 @@ public class TestModule {
 		        }
 		    }
 		});
-	
+
 		topImageSelector = new Random();
 	}
 	
@@ -279,6 +282,8 @@ public class TestModule {
 		switch(fcPanel.getState()) {
 		case FlashCardPanel.INTRO_MODULE:
 			resetIntro();
+			tapsPerSlide.add("\tIntroduction " + mediaMaps.get(currentMap).getName() + " was tapped " + tapsOnSlide + " times.\n");
+			tapsOnSlide = 0;
 			if(currentMap < mediaMaps.size() - 1) {
 				currentMap++;
 			}
@@ -289,6 +294,8 @@ public class TestModule {
 			break;
 		case FlashCardPanel.INTERACTION:
 			resetInteraction();
+			tapsPerSlide.add("\tInteraction " + mediaMaps.get(currentMap).getName() + " was tapped " + tapsOnSlide + " times.\n");
+			tapsOnSlide = 0;
 			if(currentMap < mediaMaps.size() - 1) {
 				currentMap++;
 			}
@@ -299,6 +306,8 @@ public class TestModule {
 			break;
 		case FlashCardPanel.TEST:
 			resetTest(tappedMap);
+			tapsPerSlide.add("\tTest slide " + currentTest + " was tapped " + tapsOnSlide + " times.\n");
+			tapsOnSlide = 0;
 			if(currentTest < TEST_COUNT) {
 				currentTest++;
 			}
@@ -333,11 +342,9 @@ public class TestModule {
 	public int getTotalTestTaps() {
 		return totalTaps;
 	}
-
-	private void resetIntro() {
-		soundComplete = false;
-		scaleX = INIT_SCALE_X;
-		scaleY = INIT_SCALE_Y;
+	
+	public ArrayList<String> getTapsPerSlide() {
+		return tapsPerSlide;
 	}
 	
 	private void initInteract(Canvas canvas, FlashCardPanel fcPanel, MediaMap map, int test) {
@@ -410,6 +417,12 @@ public class TestModule {
 		waiting = true;
 	}
 	
+	private void resetIntro() {
+		soundComplete = false;
+		scaleX = INIT_SCALE_X;
+		scaleY = INIT_SCALE_Y;
+	}
+	
 	private void resetInteraction() {
 		soundComplete = false;
 		newInteract = true;
@@ -457,6 +470,13 @@ public class TestModule {
 	}
 	
 	public void handleEvent(MotionEvent event, FlashCardPanel fcPanel) {
+		if (fcPanel.getState() == FlashCardPanel.INTRO_MODULE || 
+				fcPanel.getState() == FlashCardPanel.INTERACTION ||
+				fcPanel.getState() == FlashCardPanel.TEST) {
+			if(event.getAction() == MotionEvent.ACTION_DOWN) {
+				tapsOnSlide++;
+			}
+		}
 		if(testing && event.getAction() == MotionEvent.ACTION_DOWN) {
 			totalTaps++;
 		}

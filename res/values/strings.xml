@@ -18,5 +18,6 @@
     <string name="playWatchGameTwo">Play Game (Passive v2)</string>
     <string name="playWatchGameThree">Play Game (Passive v3)</string>
     <string name="playWatchGameFour">Play Game (Passive v4)</string>
+    <string name="childsName">Child\'s Name</string>
 
 </resources>

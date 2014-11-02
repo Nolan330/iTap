@@ -52,6 +52,7 @@ public class FlashCardPanel extends SurfaceView
 	private long endTime;
 	
 	static int VERSION = 0;
+	static String SUBJECT_NAME = "";
 	static int CURRENT_TEST = 0;
 	static final int TAP_TEST = 0;
 	static final int DRAG_TEST = 1;
@@ -94,6 +95,10 @@ public class FlashCardPanel extends SurfaceView
 	
 	public void loadVersion(int vers) {
 		VERSION = vers;
+	}
+	
+	public void loadName(String name) {
+		SUBJECT_NAME = name;
 	}
 
 	@Override
@@ -180,8 +185,8 @@ public class FlashCardPanel extends SurfaceView
 			case QUIT:
 				canvas.drawColor(Color.WHITE);
 				if(writeout) {
-					String test = "\nTest Condition: " + TEST_LIST.get(CURRENT_TEST) + "\n";
-					String version = "Version: " + VERSION + "\n";
+					String name = "Subject: " + SUBJECT_NAME + "\n";
+					String test = "Test Condition: " + TEST_LIST.get(CURRENT_TEST) + " v." + VERSION + "\n";
  					String taps = "Screen Tapped: " + total_taps + " times (" 
 							+ (CURRENT_TEST == FlashCardPanel.PASSIVE_TEST ? 18 : 30) + " are required).\n";
 					String time = "Total Time Taken: " 
@@ -194,6 +199,11 @@ public class FlashCardPanel extends SurfaceView
 						String output = module.getCorrectTestCount() + "/" + module.getTotalTestCount()
 								+ " with " + module.getTotalTestTaps() + " taps.\n";
 						
+						String breakdown = ""; 
+						for(String slideTaps : module.getTapsPerSlide()) {
+							breakdown += slideTaps;
+						}
+						
 						File test_results = new File
 								(Environment.getExternalStorageDirectory(), FILENAME + ".txt");
 						
@@ -201,13 +211,14 @@ public class FlashCardPanel extends SurfaceView
 						try {
 							outputWriter = new FileOutputStream(test_results, true);
 							if(moduleIndex == 1) {
+								outputWriter.write(name.getBytes());
 								outputWriter.write(test.getBytes());
-								outputWriter.write(version.getBytes());
 								outputWriter.write(taps.getBytes());
 								outputWriter.write(time.getBytes());
 							}
 							outputWriter.write(moduleId.getBytes());
 							outputWriter.write(output.getBytes());
+							outputWriter.write(breakdown.getBytes());
 							if(moduleIndex == testModules.size()) {
 								outputWriter.write(separator.getBytes());
 							}
