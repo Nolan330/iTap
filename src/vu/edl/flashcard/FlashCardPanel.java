@@ -266,6 +266,9 @@ public class FlashCardPanel extends SurfaceView
 			Log.d(TAG, "state advanced to COMPLETE or INTERMISSION");
 			break;
 		case INTERMISSION:
+			getCurrentModule().getTapsPerSlide().add("\tIntermission slide was tapped " + 
+					getCurrentModule().getTapsOnSlide() + " times.\n");
+			getCurrentModule().resetTapsOnSlide();
 			nextModule();
 			state = INTRO_MODULE;
 			break;

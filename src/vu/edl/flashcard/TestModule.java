@@ -193,13 +193,13 @@ public class TestModule {
 				map.playSound(sounds, MediaMap.CONGRATS, fcPanel.getContext());
 			}
 			if (endAnimationUp) {
-				interact_y -= 12;
+				interact_y -= 8;
 				if (interact_y <= (canvas.getHeight() - 2*map.getHeight())/4 + 100) {
 					endAnimationUp = false;
 				}
 			}
 			else {
-				interact_y += 12;
+				interact_y += 8;
 				if (interact_y >= (canvas.getHeight() - map.getHeight())/2 + 50) {
 					endAnimationDown = true;
 				}
@@ -318,6 +318,8 @@ public class TestModule {
 			break;
 		case FlashCardPanel.WAIT_FOR_INST:
 			resetWait();
+			tapsPerSlide.add("\tInstructor slide was tapped " + tapsOnSlide + " times.\n");
+			tapsOnSlide = 0;
 			fcPanel.advance();
 			break;
 		case FlashCardPanel.INTERMISSION:
@@ -347,6 +349,14 @@ public class TestModule {
 		return tapsPerSlide;
 	}
 	
+	public int getTapsOnSlide() {
+		return tapsOnSlide;
+	}
+	
+	public void resetTapsOnSlide() {
+		tapsOnSlide = 0;
+	}
+	
 	private void initInteract(Canvas canvas, FlashCardPanel fcPanel, MediaMap map, int test) {
 		river_bitmap = 
 				BitmapFactory.decodeResource(fcPanel.getContext().getResources(), 
@@ -371,7 +381,12 @@ public class TestModule {
 		selectCorrectImage();
 		testing = true;
 		
-		getCorrectImage().playSound(sounds, MediaMap.TESTING, fcPanel.getContext());
+		if (currentTest == 0) {
+			getCorrectImage().playSound(sounds, MediaMap.TESTING, fcPanel.getContext());
+		}
+		else {
+			getCorrectImage().playSound(sounds, MediaMap.SUBSEQUENT_TEST, fcPanel.getContext());
+		}
 	
 		// complex logic that should be refactored into a class ("coordinate selector")
 		if(currentTest == 0) {
@@ -472,7 +487,9 @@ public class TestModule {
 	public void handleEvent(MotionEvent event, FlashCardPanel fcPanel) {
 		if (fcPanel.getState() == FlashCardPanel.INTRO_MODULE || 
 				fcPanel.getState() == FlashCardPanel.INTERACTION ||
-				fcPanel.getState() == FlashCardPanel.TEST) {
+				fcPanel.getState() == FlashCardPanel.TEST ||
+				fcPanel.getState() == FlashCardPanel.INTERMISSION ||
+				fcPanel.getState() == FlashCardPanel.WAIT_FOR_INST) {
 			if(event.getAction() == MotionEvent.ACTION_DOWN) {
 				tapsOnSlide++;
 			}

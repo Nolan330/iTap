@@ -56,10 +56,11 @@ public class TapActivity extends Activity {
 		elephantMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "instruction_elephant")));
 		elephantMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_elephant")));
 		elephantMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_elephant")));
-		elephantMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "tap_elephant")));
+		elephantMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_elephant")));
 		elephantMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
-		elephantMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "drag_elephant")));
+		elephantMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "r_drag")));
 		elephantMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "test_elephant")));
+		elephantMap.put(MediaMap.SUBSEQUENT_TEST, new Sound(Uri.parse(rawLoc + "s_test_elephant")));
 		elephantMap.put(MediaMap.REMINDER_TEST, new Sound(Uri.parse(rawLoc + "r_test_elephant")));
 		elephantMap.put(MediaMap.CELEBRATE, new Sound(Uri.parse(rawLoc + "celebrate_elephant")));
 		elephantMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job")));
@@ -68,7 +69,7 @@ public class TapActivity extends Activity {
 		cowMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "instruction_cow")));
 		cowMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_cow")));
 		cowMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_cow")));
-		cowMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "tap_cow")));
+		cowMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_cow")));
 		cowMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		cowMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "r_drag")));
 		cowMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job2")));
@@ -79,10 +80,11 @@ public class TapActivity extends Activity {
 		horseMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_horse")));
 		horseMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_horse")));
 		horseMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_horse")));
-		horseMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "tap_horse")));
+		horseMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_horse")));
 		horseMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		horseMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "r_drag")));
 		horseMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "test_horse")));
+		horseMap.put(MediaMap.SUBSEQUENT_TEST, new Sound(Uri.parse(rawLoc + "s_test_horse")));
 		horseMap.put(MediaMap.REMINDER_TEST, new Sound(Uri.parse(rawLoc + "r_test_horse")));
 		horseMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job")));
 		horseMap.put(MediaMap.CELEBRATE, new Sound(Uri.parse(rawLoc + "celebrate_horse")));
@@ -91,7 +93,7 @@ public class TapActivity extends Activity {
 		sheepMap.put(MediaMap.INTRODUCTION, new Sound(Uri.parse(rawLoc + "introduction_sheep")));
 		sheepMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_sheep")));
 		sheepMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_sheep")));
-		sheepMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "tap_sheep")));
+		sheepMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_sheep")));
 		sheepMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		sheepMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "r_drag")));
 		sheepMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "great_job2")));
@@ -105,6 +107,7 @@ public class TapActivity extends Activity {
 		daxMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		daxMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "r_drag")));
 		daxMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "test_dax")));
+		daxMap.put(MediaMap.SUBSEQUENT_TEST, new Sound(Uri.parse(rawLoc + "s_test_dax")));
 		daxMap.put(MediaMap.REMINDER_TEST, new Sound(Uri.parse(rawLoc + "r_test_dax")));
 		daxMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "congrats_dax")));
 		daxMap.put(MediaMap.CELEBRATE, new Sound(Uri.parse(rawLoc + "celebrate_dax")));
@@ -126,6 +129,7 @@ public class TapActivity extends Activity {
 		blikMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		blikMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "r_drag")));
 		blikMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "test_blik")));
+		blikMap.put(MediaMap.SUBSEQUENT_TEST, new Sound(Uri.parse(rawLoc + "s_test_blik")));
 		blikMap.put(MediaMap.REMINDER_TEST, new Sound(Uri.parse(rawLoc + "r_test_blik")));
 		blikMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "congrats_blik")));
 		blikMap.put(MediaMap.CELEBRATE, new Sound(Uri.parse(rawLoc + "celebrate_blik")));
@@ -146,7 +150,8 @@ public class TapActivity extends Activity {
 		fepMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_fep")));
 		fepMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		fepMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "r_drag")));
-		fepMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "test_fep")));		
+		fepMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "test_fep")));
+		fepMap.put(MediaMap.SUBSEQUENT_TEST, new Sound(Uri.parse(rawLoc + "s_test_fep")));
 		fepMap.put(MediaMap.REMINDER_TEST, new Sound(Uri.parse(rawLoc + "r_test_fep")));
 		fepMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "congrats_fep")));
 		fepMap.put(MediaMap.CELEBRATE, new Sound(Uri.parse(rawLoc + "celebrate_fep")));
@@ -168,6 +173,7 @@ public class TapActivity extends Activity {
 		zavMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		zavMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "r_drag")));
 		zavMap.put(MediaMap.TESTING, new Sound(Uri.parse(rawLoc + "test_zav")));
+		zavMap.put(MediaMap.SUBSEQUENT_TEST, new Sound(Uri.parse(rawLoc + "s_test_zav")));
 		zavMap.put(MediaMap.REMINDER_TEST, new Sound(Uri.parse(rawLoc + "r_test_zav")));
 		zavMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "congrats_zav")));
 		zavMap.put(MediaMap.CELEBRATE, new Sound(Uri.parse(rawLoc + "celebrate_zav")));
@@ -315,7 +321,7 @@ public class TapActivity extends Activity {
 				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.horse), horseMap, "Horse");
 		MediaMap sheep = 
 				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.sheep), sheepMap, "Sheep");
-			testModules.add(makeModule(horse, sheep, R.raw.continue_playing, 0));
+		testModules.add(makeModule(horse, sheep, R.raw.continue_playing, 0));
 			
 		MediaMap dax = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.dax), 
@@ -373,7 +379,7 @@ public class TapActivity extends Activity {
 				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.horse), horseMap, "Horse");
 		MediaMap sheep = 
 				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.sheep), sheepMap, "Sheep");
-			testModules.add(makeModule(horse, sheep, R.raw.continue_playing, 0));
+		testModules.add(makeModule(horse, sheep, R.raw.continue_playing, 0));
 			
 		MediaMap dax = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.dax),
@@ -431,7 +437,7 @@ public class TapActivity extends Activity {
 				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.horse), horseMap, "Horse");
 		MediaMap sheep = 
 				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.sheep), sheepMap, "Sheep");
-			testModules.add(makeModule(sheep, horse, R.raw.continue_playing, 1));
+		testModules.add(makeModule(sheep, horse, R.raw.continue_playing, 1));
 			
 		MediaMap dax = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_dax), 
@@ -489,7 +495,7 @@ public class TapActivity extends Activity {
 				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.horse), horseMap, "Horse");
 		MediaMap sheep = 
 				new MediaMap(BitmapFactory.decodeResource(getResources(), R.drawable.sheep), sheepMap, "Sheep");
-			testModules.add(makeModule(sheep, horse, R.raw.continue_playing, 1));
+		testModules.add(makeModule(sheep, horse, R.raw.continue_playing, 1));
 			
 		MediaMap dax = new MediaMap(
 				BitmapFactory.decodeResource(getResources(), R.drawable.thisone_dax), 
