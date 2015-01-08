@@ -41,6 +41,16 @@ public class MessageScreen {
 		}
 	}
 	
+	public void displayMessageNoSound(Canvas canvas, FlashCardPanel fcPanel) {
+		msgMap.setCoords(canvas.getWidth()/2, canvas.getHeight()/2);
+		
+		canvas.drawBitmap(background, 
+						  canvas.getWidth()/2 - background.getWidth()/2,
+						  canvas.getHeight()/2 - background.getHeight()/2, null);
+		
+		msgMap.draw(canvas);
+	}
+	
 	private void advance(FlashCardPanel fcPanel) {
 		resetDisplay();
 		fcPanel.advance();

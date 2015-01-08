@@ -1,9 +1,5 @@
 package vu.edl.flashcard;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +9,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
-import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -29,6 +24,10 @@ public class FlashCardPanel extends SurfaceView
 	
 	private ArrayList<TestModule> testModules;
 	private boolean modulesLoaded = false;
+	private boolean testLoaded = false;
+	private boolean versionLoaded = false;
+	private boolean nameLoaded = false;
+	private boolean logInitialized = false;
 	private boolean testsComplete = false;
 	private int currentModule = 0;
 	
@@ -62,9 +61,6 @@ public class FlashCardPanel extends SurfaceView
 		"Tap", "Drag", "Double Tap", "Passive"
     );
 	
-	private static String FILENAME = "test_results";
-	private boolean writeout = true;
-	
 	private Paint textPaint = new Paint();
 	
 	public FlashCardPanel(Context ctx) {
@@ -83,22 +79,24 @@ public class FlashCardPanel extends SurfaceView
 	
 	public void loadModules(ArrayList<TestModule> list, ArrayList<MessageScreen> screens) {
 		testModules = list;
-		if(list.size() > 0) {
+		if(list.size() > 0)
 			modulesLoaded = true;
-		}
 		msgScreens = screens;
 	}
 	
 	public void loadTest(int test) {
 		CURRENT_TEST = test;
+		testLoaded = true;
 	}
 	
 	public void loadVersion(int vers) {
 		VERSION = vers;
+		versionLoaded = true;
 	}
 	
 	public void loadName(String name) {
 		SUBJECT_NAME = name;
+		nameLoaded = true;
 	}
 
 	@Override
@@ -135,7 +133,7 @@ public class FlashCardPanel extends SurfaceView
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		performClick();
-		if(event.getAction() == MotionEvent.ACTION_DOWN) {
+		if(state != QUIT && event.getAction() == MotionEvent.ACTION_DOWN) {
 			total_taps++;
 		}
 		
@@ -153,6 +151,12 @@ public class FlashCardPanel extends SurfaceView
 	
 	public void render(Canvas canvas) {
 		if(modulesLoaded) {
+			if (!logInitialized && testLoaded && versionLoaded && nameLoaded) {
+				new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
+						"Subject: " + SUBJECT_NAME + "\n" + 
+						"Test Condition: " + TEST_LIST.get(CURRENT_TEST) + " v." + VERSION + "\n")).start();
+				logInitialized = true;
+			}
 			switch(state) {
 			case INTRO_SCREEN:
 				canvas.drawColor(Color.WHITE);
@@ -184,58 +188,7 @@ public class FlashCardPanel extends SurfaceView
 				break;
 			case QUIT:
 				canvas.drawColor(Color.WHITE);
-				if(writeout) {
-					String name = "Subject: " + SUBJECT_NAME + "\n";
-					String test = "Test Condition: " + TEST_LIST.get(CURRENT_TEST) + " v." + VERSION + "\n";
- 					String taps = "Screen Tapped: " + total_taps + " times (" 
-							+ (CURRENT_TEST == FlashCardPanel.PASSIVE_TEST ? 18 : 30) + " are required).\n";
-					String time = "Total Time Taken: " 
-						+ (endTime - initTime)/1000 + " seconds.\n";
-					String separator = "----------------------------------------------\n";
-					int moduleIndex = 0;
-					for(TestModule module : testModules) {
-						moduleIndex++;
-						String moduleId = "Test " + moduleIndex + ": ";
-						String output = module.getCorrectTestCount() + "/" + module.getTotalTestCount()
-								+ " with " + module.getTotalTestTaps() + " taps.\n";
-						
-						String breakdown = ""; 
-						for(String slideTaps : module.getTapsPerSlide()) {
-							breakdown += slideTaps;
-						}
-						
-						File test_results = new File
-								(Environment.getExternalStorageDirectory(), FILENAME + ".txt");
-						
-						FileOutputStream outputWriter;
-						try {
-							outputWriter = new FileOutputStream(test_results, true);
-							if(moduleIndex == 1) {
-								outputWriter.write(name.getBytes());
-								outputWriter.write(test.getBytes());
-								outputWriter.write(taps.getBytes());
-								outputWriter.write(time.getBytes());
-							}
-							outputWriter.write(moduleId.getBytes());
-							outputWriter.write(output.getBytes());
-							outputWriter.write(breakdown.getBytes());
-							if(moduleIndex == testModules.size()) {
-								outputWriter.write(separator.getBytes());
-							}
-							outputWriter.close();
-						} catch (FileNotFoundException e) {
-							Log.d(TAG, "FlashCardPanel::Error opening file, FileNotFound");
-						} catch (IOException e) {
-							Log.d(TAG, "FlashCardPanel::Error opening file, IOException");
-						}
-						
-					}
-					writeout = false;
-				}
-				
-				float offsetY = (textPaint.descent() + textPaint.ascent())/2;
-				canvas.drawText("All done! Thank you!", canvas.getWidth()/2, 
-								canvas.getHeight()/2 - offsetY, textPaint);
+				msgScreens.get(COMPLETE_SCREEN).displayMessageNoSound(canvas, this);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown state entered");
@@ -266,14 +219,24 @@ public class FlashCardPanel extends SurfaceView
 			Log.d(TAG, "state advanced to COMPLETE or INTERMISSION");
 			break;
 		case INTERMISSION:
-			getCurrentModule().getTapsPerSlide().add("\tIntermission slide was tapped " + 
-					getCurrentModule().getTapsOnSlide() + " times.\n");
+			new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
+					"\tIntermission slide was tapped " + 
+					getCurrentModule().getTapsOnSlide() + " times.\n" +
+					"-----\n")).start();
 			getCurrentModule().resetTapsOnSlide();
 			nextModule();
 			state = INTRO_MODULE;
 			break;
 		case COMPLETE:
+			new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
+					"\tComplete slide was tapped " + getCurrentModule().getTapsOnSlide() + " times.\n"
+					+ "Screen Tapped: " + total_taps + " times (" 
+					+ (CURRENT_TEST == FlashCardPanel.PASSIVE_TEST ? 18 : 30) + " are required).\n" + 
+					"Total Time Taken: " + (endTime - initTime)/1000 + " seconds.\n")).start();
+			getCurrentModule().resetTapsOnSlide();
 			state = QUIT;
+			break;
+		case QUIT:
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown state entered");
@@ -301,8 +264,5 @@ public class FlashCardPanel extends SurfaceView
 	public void increaseTotalTaps() {
 		total_taps++;
 	}
-	
-	public int getTotalTaps() {
-		return total_taps;
-	}
+
 }
