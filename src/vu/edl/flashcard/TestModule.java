@@ -50,8 +50,7 @@ public class TestModule {
 	private boolean endAnimationUp = true;
 	private boolean endAnimationDown= false;
 
-	private int tapsOnSlide = 0;
-	private ArrayList<String> tapsPerSlide = new ArrayList<String>();
+	private ArrayList<Tap> tapsOnScreen = new ArrayList<Tap>();
 	
 	private boolean testing = false;
 	private boolean newTest = true;
@@ -282,8 +281,10 @@ public class TestModule {
 		case FlashCardPanel.INTRO_MODULE:
 			resetIntro();
 			new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
-					"\tIntroduction " + mediaMaps.get(currentMap).getName() + " was tapped " + tapsOnSlide + " times.\n")).start();
-			tapsOnSlide = 0;
+					(currentMap == 0 ? "-----\n" : "") + "\tIntroduction " + mediaMaps.get(currentMap).getName() 
+					+ " was tapped " + tapsOnScreen.size() + " times.\n",
+					new ArrayList<Tap>(tapsOnScreen))).start();
+			tapsOnScreen.clear();
 			if(currentMap < mediaMaps.size() - 1) {
 				currentMap++;
 			}
@@ -295,8 +296,9 @@ public class TestModule {
 		case FlashCardPanel.INTERACTION:
 			resetInteraction();
 			new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
-					"\tInteraction " + mediaMaps.get(currentMap).getName() + " was tapped " + tapsOnSlide + " times.\n")).start();
-			tapsOnSlide = 0;
+					"\tInteraction " + mediaMaps.get(currentMap).getName() + " was tapped " + tapsOnScreen.size() + " times.\n",
+					new ArrayList<Tap>(tapsOnScreen))).start();
+			tapsOnScreen.clear();
 			if(currentMap < mediaMaps.size() - 1) {
 				currentMap++;
 			}
@@ -308,9 +310,10 @@ public class TestModule {
 		case FlashCardPanel.TEST:
 			resetTest(tappedMap);
 			new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
-					"\tTest slide " + currentTest + " was tapped " + tapsOnSlide + " times. Correct: " +
-					correctTests + "/" + totalTests + "\n")).start();
-			tapsOnSlide = 0;
+					"\tTest slide " + currentTest + " was tapped " + tapsOnScreen.size() + " times. Correct: " +
+					correctTests + "/" + totalTests + "\n",
+					new ArrayList<Tap>(tapsOnScreen))).start();
+			tapsOnScreen.clear();
 			if(currentTest < TEST_COUNT) {
 				currentTest++;
 			}
@@ -322,8 +325,9 @@ public class TestModule {
 		case FlashCardPanel.WAIT_FOR_INST:
 			resetWait();
 			new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
-					"\tInstructor slide was tapped " + tapsOnSlide + " times.\n")).start();
-			tapsOnSlide = 0;
+					"\tInstructor slide was tapped " + tapsOnScreen.size() + " times.\n",
+					new ArrayList<Tap>(tapsOnScreen))).start();
+			tapsOnScreen.clear();
 			fcPanel.advance();
 			break;
 		case FlashCardPanel.INTERMISSION:
@@ -345,16 +349,12 @@ public class TestModule {
 		return TEST_COUNT + 1;
 	}
 	
-	public ArrayList<String> getTapsPerSlide() {
-		return tapsPerSlide;
-	}
-	
-	public int getTapsOnSlide() {
-		return tapsOnSlide;
+	public ArrayList<Tap> getTapsOnSlide() {
+		return tapsOnScreen;
 	}
 	
 	public void resetTapsOnSlide() {
-		tapsOnSlide = 0;
+		tapsOnScreen.clear();
 	}
 	
 	private void initInteract(Canvas canvas, FlashCardPanel fcPanel, MediaMap map, int test) {
@@ -491,9 +491,15 @@ public class TestModule {
 				fcPanel.getState() == FlashCardPanel.INTERMISSION ||
 				fcPanel.getState() == FlashCardPanel.WAIT_FOR_INST ||
 				fcPanel.getState() == FlashCardPanel.COMPLETE) {
-			if(event.getAction() == MotionEvent.ACTION_DOWN) {
-				tapsOnSlide++;
-				// Add a Point or custom tap class to an array
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				tapsOnScreen.add(new Tap((int) event.getX(), (int) event.getY(), !soundComplete));
+				break;
+			case MotionEvent.ACTION_MOVE:
+				tapsOnScreen.get(tapsOnScreen.size() - 1).setDrag();
+				break;
+			default:
+				break;
 			}
 		}
 		if((interacting || testing)  && soundComplete) {

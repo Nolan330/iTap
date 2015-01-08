@@ -19,6 +19,9 @@ public class MediaMap extends Map {
 	static final String INTERACTION_TAP = "tap";
 	static final String INTERACTION_DRAG = "drag";
 	static final String INTERACTION_WATCH = "watch";
+	static final String INTERACTION_N_TAP = "n" + INTERACTION_TAP;
+	static final String INTERACTION_N_DRAG = "n" + INTERACTION_DRAG;
+	static final String INTERACTION_N_WATCH = "n" + INTERACTION_WATCH;
 	static final String TESTING = "testing";
 	static final String SUBSEQUENT_TEST = "second_test";
 	static final String REMINDER_TAP = "r" + INTERACTION_TAP;

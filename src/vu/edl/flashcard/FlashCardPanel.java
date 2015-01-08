@@ -138,15 +138,8 @@ public class FlashCardPanel extends SurfaceView
 		}
 		
 		getCurrentModule().handleEvent(event, this);
-
-		if(CURRENT_TEST == DRAG_TEST) {
-			Log.d(TAG, "Total taps increased to: " + total_taps);
-			return true;
-		}
-		else { 
-			Log.d(TAG, "Total taps increased to: " + total_taps);
-			return super.onTouchEvent(event);
-		}
+		
+		return true;
 	}
 	
 	public void render(Canvas canvas) {
@@ -221,18 +214,19 @@ public class FlashCardPanel extends SurfaceView
 		case INTERMISSION:
 			new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
 					"\tIntermission slide was tapped " + 
-					getCurrentModule().getTapsOnSlide() + " times.\n" +
-					"-----\n")).start();
+					getCurrentModule().getTapsOnSlide().size() + " times.\n",
+					new ArrayList<Tap>(getCurrentModule().getTapsOnSlide()))).start();
 			getCurrentModule().resetTapsOnSlide();
 			nextModule();
 			state = INTRO_MODULE;
 			break;
 		case COMPLETE:
 			new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
-					"\tComplete slide was tapped " + getCurrentModule().getTapsOnSlide() + " times.\n"
+					"\tComplete slide was tapped " + getCurrentModule().getTapsOnSlide().size() + " times.\n"
 					+ "Screen Tapped: " + total_taps + " times (" 
 					+ (CURRENT_TEST == FlashCardPanel.PASSIVE_TEST ? 18 : 30) + " are required).\n" + 
-					"Total Time Taken: " + (endTime - initTime)/1000 + " seconds.\n")).start();
+					"Total Time Taken: " + (endTime - initTime)/1000 + " seconds.\n",
+					getCurrentModule().getTapsOnSlide())).start();
 			getCurrentModule().resetTapsOnSlide();
 			state = QUIT;
 			break;

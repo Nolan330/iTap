@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import android.os.Environment;
 import android.util.Log;
@@ -15,10 +16,18 @@ public class ModuleLoggingTask implements Runnable {
 	
 	private final String mMsg;
 	private final String mFileName;
+	private final ArrayList<Tap> mTaps;
 	
 	public ModuleLoggingTask(String fname, String msg) {
 		mFileName = fname;
 		mMsg = msg;
+		mTaps = new ArrayList<Tap>();
+	}
+	
+	public ModuleLoggingTask(String fname, String msg, ArrayList<Tap> taps) {
+		mFileName = fname;
+		mMsg = msg;
+		mTaps = taps;
 	}
 
 	@Override
@@ -30,6 +39,9 @@ public class ModuleLoggingTask implements Runnable {
 		try {
 			outputWriter = new FileOutputStream(testResults, true);
 			outputWriter.write(mMsg.getBytes());
+			for (Tap tap : mTaps) {
+				outputWriter.write(("\t\t" + tap.toString() + "\n").getBytes());
+			}
 			outputWriter.close();
 		} catch (FileNotFoundException e) {
 			Log.d(TAG, "FlashCardPanel::Error opening file, FileNotFound");
