@@ -226,7 +226,7 @@ public class FlashCardPanel extends SurfaceView
 					+ "Screen Tapped: " + total_taps + " times (" 
 					+ (CURRENT_TEST == FlashCardPanel.PASSIVE_TEST ? 18 : 30) + " are required).\n" + 
 					"Total Time Taken: " + (endTime - initTime)/1000 + " seconds.\n",
-					getCurrentModule().getTapsOnSlide())).start();
+					new ArrayList<Tap>(getCurrentModule().getTapsOnSlide()))).start();
 			getCurrentModule().resetTapsOnSlide();
 			state = QUIT;
 			break;

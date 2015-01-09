@@ -84,7 +84,7 @@ public class MediaMap extends Map {
 	}
 	
 	public static String playInteraction(int test, boolean remind) {
-		switch(test) {
+		switch (test) {
 		case FlashCardPanel.TAP_TEST:
 			return remind ? MediaMap.REMINDER_TAP : MediaMap.INTERACTION_TAP;
 		case FlashCardPanel.DRAG_TEST:
@@ -96,9 +96,22 @@ public class MediaMap extends Map {
 		}
 	}
 	
+	public static String playNextInteraction(int test) {
+		switch (test) {
+		case FlashCardPanel.TAP_TEST:
+			return MediaMap.INTERACTION_N_TAP;
+		case FlashCardPanel.DRAG_TEST:
+			return MediaMap.INTERACTION_N_DRAG;
+		case FlashCardPanel.PASSIVE_TEST:
+			return MediaMap.INTERACTION_N_WATCH;
+		default:
+			throw new IllegalArgumentException("Unknown test requested");
+		}
+	}
+	
 	// Event Handling methods
 	public void handleEvent(MotionEvent event) {
-		switch(event.getAction()) {
+		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			if (tappedWithinRange(event.getX(), event.getY())) {
 				tapped = true;

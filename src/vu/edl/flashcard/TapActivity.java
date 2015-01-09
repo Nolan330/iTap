@@ -187,9 +187,9 @@ public class TapActivity extends Activity {
 		thisone_fepMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_thisone")));
 		thisone_fepMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_thisone")));
 		thisone_fepMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_thisone")));
-		thisone_blikMap.put(MediaMap.INTERACTION_N_TAP, new Sound(Uri.parse(rawLoc + "n_tap_thisone")));
-		thisone_blikMap.put(MediaMap.INTERACTION_N_DRAG, new Sound(Uri.parse(rawLoc + "n_drag_thisone")));
-		thisone_blikMap.put(MediaMap.INTERACTION_N_WATCH, new Sound(Uri.parse(rawLoc + "n_watch_thisone")));
+		thisone_fepMap.put(MediaMap.INTERACTION_N_TAP, new Sound(Uri.parse(rawLoc + "n_tap_thisone")));
+		thisone_fepMap.put(MediaMap.INTERACTION_N_DRAG, new Sound(Uri.parse(rawLoc + "n_drag_thisone")));
+		thisone_fepMap.put(MediaMap.INTERACTION_N_WATCH, new Sound(Uri.parse(rawLoc + "n_watch_thisone")));
 		thisone_fepMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		thisone_fepMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "r_drag")));
 		thisone_fepMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "congrats_thisone")));
@@ -215,9 +215,9 @@ public class TapActivity extends Activity {
 		thisone_zavMap.put(MediaMap.INTERACTION_TAP, new Sound(Uri.parse(rawLoc + "tap_thisone")));
 		thisone_zavMap.put(MediaMap.INTERACTION_DRAG, new Sound(Uri.parse(rawLoc + "drag_thisone")));
 		thisone_zavMap.put(MediaMap.INTERACTION_WATCH, new Sound(Uri.parse(rawLoc + "watch_thisone")));
-		thisone_blikMap.put(MediaMap.INTERACTION_N_TAP, new Sound(Uri.parse(rawLoc + "n_tap_thisone")));
-		thisone_blikMap.put(MediaMap.INTERACTION_N_DRAG, new Sound(Uri.parse(rawLoc + "n_drag_thisone")));
-		thisone_blikMap.put(MediaMap.INTERACTION_N_WATCH, new Sound(Uri.parse(rawLoc + "n_watch_thisone")));
+		thisone_zavMap.put(MediaMap.INTERACTION_N_TAP, new Sound(Uri.parse(rawLoc + "n_tap_thisone")));
+		thisone_zavMap.put(MediaMap.INTERACTION_N_DRAG, new Sound(Uri.parse(rawLoc + "n_drag_thisone")));
+		thisone_zavMap.put(MediaMap.INTERACTION_N_WATCH, new Sound(Uri.parse(rawLoc + "n_watch_thisone")));
 		thisone_zavMap.put(MediaMap.REMINDER_TAP, new Sound(Uri.parse(rawLoc + "r_tap")));
 		thisone_zavMap.put(MediaMap.REMINDER_DRAG, new Sound(Uri.parse(rawLoc + "r_drag")));
 		thisone_zavMap.put(MediaMap.CONGRATS, new Sound(Uri.parse(rawLoc + "congrats_thisone")));

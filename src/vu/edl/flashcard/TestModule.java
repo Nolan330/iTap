@@ -118,7 +118,8 @@ public class TestModule {
 			initInteract(canvas, fcPanel, map, test);
 		}
 		
-		if(getTimeSincePrompt() > TIME_TO_THINK && soundComplete && !map.wasTapped()) {
+		if(getTimeSincePrompt() > TIME_TO_THINK && soundComplete && !map.wasTapped() 
+				&& test != FlashCardPanel.PASSIVE_TEST) {
 			soundComplete = false;
 			map.playSound(sounds, MediaMap.playInteraction(test, true), fcPanel.getContext());
 		}
@@ -367,7 +368,9 @@ public class TestModule {
 				null);
 		
 		map.setTransparent();
-		map.playSound(sounds, MediaMap.playInteraction(test, false), fcPanel.getContext());
+		map.playSound(sounds,
+				currentMap == 0 ? MediaMap.playInteraction(test, false) : MediaMap.playNextInteraction(test),
+				fcPanel.getContext());
 		
 		interact_x = canvas.getWidth()/5 - map.getWidth()/2;
 		interact_y = 5*canvas.getHeight()/8 - map.getHeight()/2;
@@ -496,7 +499,8 @@ public class TestModule {
 				tapsOnScreen.add(new Tap((int) event.getX(), (int) event.getY(), !soundComplete));
 				break;
 			case MotionEvent.ACTION_MOVE:
-				tapsOnScreen.get(tapsOnScreen.size() - 1).setDrag();
+				if (tapsOnScreen.size() > 0) 
+					tapsOnScreen.get(tapsOnScreen.size() - 1).setDrag();
 				break;
 			default:
 				break;
