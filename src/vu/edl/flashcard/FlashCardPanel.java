@@ -28,6 +28,7 @@ public class FlashCardPanel extends SurfaceView
 	private boolean versionLoaded = false;
 	private boolean nameLoaded = false;
 	private boolean logInitialized = false;
+	private boolean introLogged = false;
 	private boolean testsComplete = false;
 	private int currentModule = 0;
 	
@@ -46,6 +47,8 @@ public class FlashCardPanel extends SurfaceView
 	static final int COMPLETE = 15;
 	static final int QUIT = 20;
 	private int total_taps;
+	private ArrayList<Tap> allTaps = new ArrayList<Tap>();
+	private boolean writeTotals = true;
 	static final int NECESSARY_TAPS = 30;
 	private long initTime;
 	private long endTime;
@@ -133,8 +136,18 @@ public class FlashCardPanel extends SurfaceView
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		performClick();
-		if(state != QUIT && event.getAction() == MotionEvent.ACTION_DOWN) {
-			total_taps++;
+		if(state != QUIT) {
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				allTaps.add(new Tap((int) event.getX(), (int) event.getY()));
+				break;
+			case MotionEvent.ACTION_MOVE:
+				if (allTaps.size() > 0) 
+					allTaps.get(allTaps.size() - 1).setDrag();
+				break;
+			default:
+				break;
+			}
 		}
 		
 		getCurrentModule().handleEvent(event, this);
@@ -180,7 +193,22 @@ public class FlashCardPanel extends SurfaceView
 				msgScreens.get(COMPLETE_SCREEN).displayMessage(canvas, this);
 				break;
 			case QUIT:
+				Log.d(TAG, "GARBOLOGY TRASHBOLOGY");
 				canvas.drawColor(Color.WHITE);
+				if (writeTotals) {
+					int numTaps = 0, numDrags = 0;
+					for (Tap t : allTaps) {
+						if (t.isDrag())
+							numDrags++;
+						else
+							numTaps++;
+					}
+					new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME,
+							"Screen Tapped: " + allTaps.size() + " times [" + numTaps + " TAPS, " + numDrags + " DRAGS] (" 
+							+ (CURRENT_TEST == FlashCardPanel.PASSIVE_TEST ? 18 : 30) + " total interactions required).\n" + 
+							"Total Time Taken: " + (endTime - initTime)/1000 + " seconds.\n")).start();
+					writeTotals = false;
+				}
 				msgScreens.get(COMPLETE_SCREEN).displayMessageNoSound(canvas, this);
 				break;
 			default:
@@ -193,6 +221,12 @@ public class FlashCardPanel extends SurfaceView
 		switch(state) {
 		case INTRO_SCREEN:
 			state = INTRO_MODULE;
+			if (!introLogged) {
+				new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
+						"\tIntroductory Screen was tapped " + 
+						total_taps + " times.\n")).start();
+				introLogged = true;
+			}
 			Log.d(TAG, "state advanced to INTRO_MODULE");
 			break;
 		case INTRO_MODULE:
@@ -222,10 +256,7 @@ public class FlashCardPanel extends SurfaceView
 			break;
 		case COMPLETE:
 			new Thread(new ModuleLoggingTask(FlashCardPanel.SUBJECT_NAME, 
-					"\tComplete slide was tapped " + getCurrentModule().getTapsOnSlide().size() + " times.\n"
-					+ "Screen Tapped: " + total_taps + " times (" 
-					+ (CURRENT_TEST == FlashCardPanel.PASSIVE_TEST ? 18 : 30) + " are required).\n" + 
-					"Total Time Taken: " + (endTime - initTime)/1000 + " seconds.\n",
+					"\tComplete slide was tapped " + getCurrentModule().getTapsOnSlide().size() + " times.\n",
 					new ArrayList<Tap>(getCurrentModule().getTapsOnSlide()))).start();
 			getCurrentModule().resetTapsOnSlide();
 			state = QUIT;

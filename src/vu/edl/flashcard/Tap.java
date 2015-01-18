@@ -8,6 +8,10 @@ public class Tap {
 	private boolean mDuringPrompt;
 	private boolean mDrag;
 	
+	public Tap(int x, int y) {
+		mPoint = new Point(x, y);
+	}
+	
 	public Tap(int x, int y, boolean duringPrompt) {
 		mPoint = new Point(x, y);
 		mDuringPrompt = duringPrompt;
@@ -18,8 +22,12 @@ public class Tap {
 		mDrag = true;
 	}
 	
+	public boolean isDrag() {
+		return mDrag;
+	}
+	
 	public String toString() {
-		return "(" + mPoint.x + ", " + mPoint.y + ") " + (mDrag ? "DRAG " : "TAP ")
-				+ (mDuringPrompt ? "during prompt" : "not during prompt");
+		return (mDuringPrompt ? "" : ">>>> ") + "(" + mPoint.x + ", " + mPoint.y + ") " + (mDrag ? "DRAG " : "TAP ")
+				+ (mDuringPrompt ? "during prompt" : "NOT during prompt <<<<");
 	}
 }
