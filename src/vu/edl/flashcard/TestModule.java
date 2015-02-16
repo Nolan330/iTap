@@ -124,11 +124,6 @@ public class TestModule {
 			map.playSound(sounds, MediaMap.playInteraction(test, true), fcPanel.getContext());
 		}
 		
-		if(getTimeSincePrompt() > TIME_TO_THINK*1.25 && soundComplete && map.wasTapped()
-				&& test == FlashCardPanel.DRAG_TEST) {
-			map.setTapped(false);
-		}
-		
 		canvas.drawBitmap(river_bitmap, 
 				new Rect(0,0,river_bitmap.getWidth(),river_bitmap.getHeight()), 
 				new Rect(0,0,canvas.getWidth(),canvas.getHeight()), 
